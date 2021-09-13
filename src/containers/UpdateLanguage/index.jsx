@@ -34,7 +34,7 @@ export default function UpdateLanguage() {
       <Card className="page-content">
         <Card.Header>
           <div className="page-header">
-            <h4>Update Language</h4>
+            <h4>Manage Language</h4>
             <div className="links">
               <Button
                 type="primary"

@@ -72,7 +72,7 @@ export default function UpdateFlashCard() {
       <Card className="page-content">
         <Card.Header>
           <div className="page-header">
-            <h4>Update Flash Card </h4>
+            <h4>Manage Flash Card </h4>
             <div className="links">
               <Button
                 type="primary"

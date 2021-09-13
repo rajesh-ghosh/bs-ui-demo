@@ -34,7 +34,7 @@ export default function UpdateFlashCardSet() {
       <Card className="page-content">
         <Card.Header>
           <div className="page-header">
-            <h4>Update CardSet</h4>
+            <h4>Manage Card Set</h4>
             <div className="links">
               <Button
                 type="primary"

@@ -36,7 +36,8 @@ export default function CreateFlashCard() {
     createFlashCardMutate(data, {
       onSuccess: (data) => {
         setPrevData(data);
-        setStep(2);
+        //setStep(2);
+        history.push('/cards/update/' + data.data[0].id);
         toast.success("Card Added Successfully", {
           position: toast.POSITION.TOP_RIGHT,
         });
