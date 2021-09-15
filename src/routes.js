@@ -32,11 +32,6 @@ const routes = [
         exact: true,
         component: ListFlashCards,
       },
-      // {
-      //   path: "/cards/filterbyparttls",
-      //   exact: true,
-      //   component: ListFlashCards,
-      // },
       {
         path: "/cards/create",
         exact: true,

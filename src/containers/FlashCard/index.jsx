@@ -3,7 +3,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { Card, Row, Button, Col, Form } from "react-bootstrap";
 import FlashCardItem from "../../components/FlashCardItem";
 import { useGetAllFlashCards } from "../../hooks";
-import { useGetFlashCardsWithPartTls } from "../../hooks";
 
 
 export default function FlashCard() {
@@ -13,27 +12,18 @@ export default function FlashCard() {
   const urlPath = location.pathname;
   const [showData, setShowData] = useState(10);
   const [filterData, setFilterData] = useState(null);
-  const search = useLocation().search;
-  const query = new URLSearchParams(search).get("q");
+  const queryString = useLocation().search;
+  console.log('query string - ' + queryString);
+  const searchQuery = new URLSearchParams(queryString).get("q");
+  console.log('search string - ' + searchQuery);
+  const filterQuery = new URLSearchParams(queryString).get("f");
+  console.log('filter string - ' + filterQuery);
 
   const loadMore = () => {
     setShowData(showData + 10);
   };
 
-  // console.log('Container FlashCard called - ' + location.pathname);
-  // let pathFrag1 = urlPath.split("/")[1];
-  // let pathFrag2 = urlPath.split("/")[2];
-  
-  // let allCards = pathFrag2 ? false : true;
-  
-  // let partTlCards = pathFrag2  ? ( pathFrag2 === 'filterbyparttls' ) : false;
-  // let fullTlCards = pathFrag2  ? ( pathFrag2 === 'filterbyfulltls' ) : false;
-
-  // console.log('### Values - ' + allCards + ' , ' + partTlCards + ', ' + fullTlCards);
-
-  // const { data: allFlashCardsData } = allCards ? useGetAllFlashCards() : useGetFlashCardsWithPartTls();
-
-  const { data: allFlashCardsData } = useGetAllFlashCards(query || "");
+  const { data: allFlashCardsData } = useGetAllFlashCards( searchQuery ? 'q' : ( filterQuery ? 'f' : '' ) ,  searchQuery ? searchQuery : filterQuery);
 
   const allFlashCards = useMemo(() => {
     if (allFlashCardsData && allFlashCardsData.data) {
@@ -42,43 +32,7 @@ export default function FlashCard() {
     }
   }, [allFlashCardsData]);
 
-  //const { dataPartTl : flashCardPartTlData } = useGetFlashCardsWithPartTls();
-
-  // const flashCardsWithPartTls = useMemo( () => {
-  //   if (flashCardPartTlData && flashCardPartTlData.data) {
-  //     setFilterData(flashCardPartTlData.data);
-  //     return flashCardPartTlData.data;
-  //   }
-
-  // }, [flashCardPartTlData]);
-
-  // const handleSearch = (e) => {
-  //   const value = e.target.value.toLowerCase();
-    
-  //   if (value === null || value === "") {
-  //     if (allCards)
-  //       setFilterData(allFlashCards);
-
-  //     if (partTlCards)
-  //       setFilterData(flashCardsWithPartTls);
-
-  //     return;
-  //   }
-
-  //   //if (allCards) {
-  //     const filterData = allFlashCards.filter((data) => {
-  //       return (
-  //         (data.cardGroupTitle?.toLowerCase().search(value) &&
-  //           data.challengeText?.toLowerCase().search(value) &&
-  //           data.answerText?.toLowerCase().search(value)) !== -1
-  //       );
-  //     });
-  //   //}
-    
-  //   setFilterData(filterData);
-  // };
-
-  const handleSearch = (e) => {
+  const handleFilter = (e) => {
     const value = e.target.value.toLowerCase();
     if (value === null || value === "") {
       setFilterData(allFlashCards);
@@ -107,6 +61,9 @@ export default function FlashCard() {
             >
               Add
             </Button>
+            <a href="#"></a>
+            <a href="#"><img src="https://img.icons8.com/ios/50/000000/pdf-2.png" className="tool-bar-image"/></a>
+            <a href="#"><img src="https://img.icons8.com/material-sharp/24/000000/download--v1.png" className="tool-bar-image"/></a>
           </div>
         </div>
       </Card.Header>
@@ -117,7 +74,7 @@ export default function FlashCard() {
               type="text"
               placeholder="Filter Card ... "
               className="mb-4"
-              onChange={handleSearch}
+              onChange={handleFilter}
             />
           </Col>
         </Row>

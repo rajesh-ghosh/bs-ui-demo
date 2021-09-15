@@ -5,7 +5,8 @@ const axios = Axios.create({
     baseURL: baseAPIUrl,
 });
 
-export const getAllFlashCards = (query) => axios.get(`${query ? `/api/cards/search?q=${query}` : '/api/cards'}`);
+export const getAllFlashCards = (queryType, query) => axios.get(
+    `${queryType ? ( queryType === 'q' ? `/api/cards/search?q=${query}` : (queryType === 'f' ? `/api/cards?filterby=${query}` : '/api/cards')) : '/api/cards'}`);
 export const getFlashCardsWithPartTls = () => axios.get('/api/cards?filterby=parttls');
 export const getFlashCardsWithFullTls = () => axios.get('/api/cards?filterby=fulltls');
 export const getAllFlashCardSets = () => axios.get('/api/cardsets');
@@ -30,7 +31,7 @@ export const updateLanguage = (data, id) => axios.put(`/api/locales/${id}`, data
 export const getLanguageById = (id) => axios.get(`/api/locales/${id}`);
 
 export const getLovFlashCardSets = () => axios.get('/lov/cardsets');
-export const getLovLanguages = () => axios.get('/lov/locales');
+export const getLovLanguages = () => axios.get('/lov/locales?enabled=true');
 
 export const addTranslation = (data, id) => axios.post(`/api/cards/${id}/tls`, data);
 export const updateImage = (data) => axios.post(`/api/files/upload`, data, {

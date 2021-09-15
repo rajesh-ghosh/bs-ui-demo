@@ -91,3 +91,11 @@
 .view-list .item p {
   margin: 0;
 }
+
+.tool-bar-image {
+  height: 30px;
+  width: 30px;
+  text-decoration: none;
+  margin-right: 4px;
+  margin-left: 4px;
+}

@@ -13,7 +13,7 @@ export default function FlashCardSetItem({ data, onClick }) {
                 <div>{data?.title}</div>
               </div>
             </Col>
-            <Col>
+            <Col md="auto">
               <div className="list-item">
                 <label>Cards:</label>
                 <div>{data?.cards.length}</div>

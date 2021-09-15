@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Row, Col } from "react-bootstrap";
 
+
 export default function FlashCardItem({ data, onClick }) {
   return (
     <Col md="6">

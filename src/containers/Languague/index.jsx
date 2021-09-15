@@ -55,7 +55,7 @@ export default function Languague() {
           <Col sm={4} md={3}>
             <Form.Control
               type="text"
-              placeholder="Search Language"
+              placeholder="Filter Language"
               className="mb-4"
               onChange={handleSearch}
             />

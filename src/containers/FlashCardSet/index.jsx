@@ -38,7 +38,7 @@ export default function FlashCardSet() {
     <Card className="page-content">
       <Card.Header>
         <div className="page-header">
-          <h4>Flash Card Set</h4>
+          <h4>Flash Card Sets</h4>
           <div className="links">
             <Button
               type="primary"
@@ -55,7 +55,7 @@ export default function FlashCardSet() {
           <Col sm={4} md={3}>
             <Form.Control
               type="text"
-              placeholder="Search Card Set"
+              placeholder="Filter Card Sets"
               className="mb-4"
               onChange={handleSearch}
             />

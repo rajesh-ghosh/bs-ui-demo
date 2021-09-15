@@ -32,7 +32,7 @@ export default function CreateFlashCardForm({
         label: initialValues.answerType,
       });
       setValue("answerText", initialValues.answerText);
-      setValue("tagString", initialValues.tagStringInt);
+      setValue("tagString", initialValues.tagString);
     }
   }, [initialValues, setValue]);
 

@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { useHistory, useLocation } from "react-router";
 import { Card, Row, Col } from "react-bootstrap";
 import { TagCloud } from "react-tagcloud";
 import DashboardCard from "../../components/DashboardCard";
@@ -9,9 +10,11 @@ import {
 } from "../../hooks";
 
 export default function Dashboard() {
+
   const { data: flashCardData } = useGetDashboardFlashCards();
   const { data: flashCardSetsData } = useGetDashboardFlashCardSets();
   const { data: tagCloudData } = useGetTagCloud();
+  const history = useHistory();
 
   const flashCards = useMemo(() => {
     if (flashCardData && flashCardData.data) {
@@ -31,21 +34,26 @@ export default function Dashboard() {
     }
   }, [tagCloudData]);
 
-  console.log(tagCloud);
+  //console.log(tagCloud);
+
+  const navHandler = (path) => {
+    history.push(path);
+  }
 
   return (
     <>
       <Row>
         <Col sm="3">
-          <DashboardCard cardTitle="Total Sets" count={flashCardSets} drillDownPath="/cardsets" />
+          <DashboardCard cardTitle="Total Sets" count={flashCardSets}  drillDownHandlerRef={ () => { navHandler('/cardsets') }  } />
         </Col>
         <Col sm="3">
-          <DashboardCard cardTitle="Total Cards" count={flashCards?.totalCards} drillDownPath="/cards" />
+          <DashboardCard cardTitle="Total Cards" count={flashCards?.totalCards}  drillDownHandlerRef={ () => { return navHandler('/cards'); }  } />
         </Col>
         <Col sm="3">
           <DashboardCard
             cardTitle="Full Translations"
             count={flashCards?.fullTlCards}
+            drillDownHandlerRef={ () => { return navHandler('/cards?f=fulltls'); }  }
           />
         </Col>
         <Col sm="3">
@@ -53,6 +61,7 @@ export default function Dashboard() {
             cardTitle="Partial Translations"
             count={flashCards?.partTlCards}
             drillDownPath="/cards/filterbyparttls"
+            drillDownHandlerRef={ () => { return navHandler('/cards?f=parttls'); }  }
           />
         </Col>
       </Row>

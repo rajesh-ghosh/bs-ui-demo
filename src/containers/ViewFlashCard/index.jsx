@@ -1,6 +1,7 @@
-import React, { useMemo } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { Card, Row, Button, Col } from "react-bootstrap";
+import React, { useMemo, useState } from "react";
+import { useHistory, useParams, Link } from "react-router-dom";
+import { Card, Row, Button, Col, Modal } from "react-bootstrap";
+import ShowTlPopup from "../../components/ViewTranslation";
 import { useGetAllEnabledLanguages, useGetFlashCardById } from "../../hooks";
 
 function renderMission(allEnabledLocale, flashCard) {
@@ -13,8 +14,11 @@ function renderMission(allEnabledLocale, flashCard) {
 }
 
 export default function ViewFlashCard() {
+
   const history = useHistory();
   const { id } = useParams();
+  const [openModal, setOpenModal] = useState(false);
+  const [ modalContent, setModalContent] = useState(null);
 
   const { data: flashCardData } = useGetFlashCardById(id);
   const { data: allEnabledLocaleData } = useGetAllEnabledLanguages();
@@ -28,6 +32,17 @@ export default function ViewFlashCard() {
       return allEnabledLocaleData.data;
   }, [allEnabledLocaleData]);
 
+  const handleTlLink = (tlData) => {
+      //console.log('### TL Link clicked. Value - ' + JSON.stringify(tlData));
+      setOpenModal(true);
+      setModalContent(tlData);
+  };
+
+  const handleModalClose = () => {
+    setOpenModal(false);
+  };
+
+  
   return (
     <Card className="page-content">
       <Card.Header>
@@ -41,6 +56,8 @@ export default function ViewFlashCard() {
             >
               Back
             </Button>
+            <a href=""></a>
+            <a href="#"><img src="https://img.icons8.com/material-sharp/24/000000/download--v1.png" className="tool-bar-image"/></a>
           </div>
         </div>
       </Card.Header>
@@ -53,16 +70,20 @@ export default function ViewFlashCard() {
                 <p>{flashCard?.cardGroupTitle}</p>
               </div>
               <div className="item">
-                <h6>Question Type</h6>
+                <h6>Challenge Type</h6>
                 <p>{flashCard?.challengeType}</p>
               </div>
               <div className="item">
-                <h6>Question</h6>
+                <h6>Challenge</h6>
                 <p>
                   {flashCard?.challengeType === "TEXT"
                     ? flashCard?.challengeText
                     : flashCard?.challengeImageFileLoc}
                 </p>
+              </div>
+              <div className="item">
+                <h6>Answer Type</h6>
+                <p>{flashCard?.answerType}</p>
               </div>
               <div className="item">
                 <h6>Answer</h6>
@@ -74,15 +95,28 @@ export default function ViewFlashCard() {
               </div>
               <div className="item">
                 <h6>Tags</h6>
-                <p>{flashCard?.tagStringInt.toString()}</p>
+                <p>{flashCard?.tagString.toString()}</p>
               </div>
               <div className="item">
                 <h6>Available Translations</h6>
-                <p>
-                  {flashCard?.translations
-                    ?.map((i) => i.localeCode)
-                    ?.toString()}
-                </p>
+                {
+                /* <p>
+                  {flashCard?.translations?.map((i) => { <Link to="#">{i.localeCode?.toString()}</Link> })}
+                </p> */
+                  <div>
+                    <p>
+                      {flashCard?.translations?.map( (i, index) => { return(  <Link to="#" onClick={ () => handleTlLink(i)  }> {(index === 0 ? i.localeCode : ', ' + i.localeCode)}</Link>  ) } ) }  
+                    </p>
+                    <Modal show={openModal} onHide={handleModalClose}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>View Translation</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <ShowTlPopup tlData={modalContent}/>
+                      </Modal.Body>
+                    </Modal>
+                  </div>
+                }
               </div>
               <div className="item">
                 <h6>Missing Translations</h6>
